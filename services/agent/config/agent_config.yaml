@@ -42,3 +42,4 @@ data:
   adapter: "synthetic" # Options: synthetic | gaia
   gaia_path: "data/gaia"
   replay_speed: 1.0 # 1.0=real-time 10.0=fast evaluation
+  start_offset: 4880 # Start near GAIA anomaly region (row 4889)
