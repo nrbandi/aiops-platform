@@ -1,0 +1,177 @@
+# AIOps Agent — Playbook Library
+# Section 5.5.1: 12 Phase 1 playbooks + 3 Phase 2 additions = 15 total
+# Each playbook defines: conditions, actions, severity band, and operator role mapping
+# Phase 2: weighted match scoring activated in rule_engine.py
+
+playbooks:
+  - id: PB001
+    name: "CPU saturation — application server"
+    conditions:
+      cpu_percent: { threshold: 85.0, weight: 1.0 }
+    severity_band: [HIGH, CRITICAL]
+    actions:
+      L1: "Alert on-call engineer. Check top processes via 'top' or 'htop'."
+      L2: "Identify runaway process. Consider horizontal scaling or throttling batch jobs."
+      L3: "Evaluate autoscaling policy. Review capacity plan for application tier."
+    tags: [cpu, application]
+
+  - id: PB002
+    name: "CPU saturation — database server"
+    conditions:
+      cpu_percent: { threshold: 80.0, weight: 1.0 }
+    severity_band: [HIGH, CRITICAL]
+    actions:
+      L1: "Alert DBA on-call. Do not restart without approval."
+      L2: "Check slow query log. Identify locking or missing indexes."
+      L3: "Review query execution plans. Consider read replica promotion."
+    tags: [cpu, database]
+
+  - id: PB003
+    name: "Memory pressure — gradual leak pattern"
+    conditions:
+      mem_percent: { threshold: 75.0, weight: 0.8 }
+    severity_band: [MEDIUM, HIGH]
+    actions:
+      L1: "Monitor trend. Alert L2 if mem > 85% within 30 minutes."
+      L2: "Identify leaking process via 'smem' or 'valgrind'. Schedule restart in maintenance window."
+      L3: "Review application memory management. Flag for code-level investigation."
+    tags: [memory, leak]
+
+  - id: PB004
+    name: "Memory pressure — sudden spike"
+    conditions:
+      mem_percent: { threshold: 90.0, weight: 1.0 }
+    severity_band: [HIGH, CRITICAL]
+    actions:
+      L1: "Immediate alert. Check for OOM killer activity in /var/log/syslog."
+      L2: "Kill non-critical processes if OOM imminent. Notify application owner."
+      L3: "Authorise emergency memory expansion or instance type change."
+    tags: [memory, spike]
+
+  - id: PB005
+    name: "Disk I/O saturation"
+    conditions:
+      disk_io_mbps: { threshold: 200.0, weight: 0.9 }
+    severity_band: [MEDIUM, HIGH]
+    actions:
+      L1: "Run 'iostat -x 1' to confirm saturation. Log ticket."
+      L2: "Identify I/O-heavy processes via 'iotop'. Defer non-critical batch jobs."
+      L3: "Evaluate storage tier upgrade or I/O scheduling policy change."
+    tags: [disk, io]
+
+  - id: PB006
+    name: "Network throughput saturation"
+    conditions:
+      net_mbps: { threshold: 800.0, weight: 0.9 }
+    severity_band: [MEDIUM, HIGH]
+    actions:
+      L1: "Run 'nload' or 'iftop' to identify top talkers. Log ticket."
+      L2: "Check for unexpected data transfers or DDoS indicators."
+      L3: "Review bandwidth allocation. Consider traffic shaping or CDN offload."
+    tags: [network, throughput]
+
+  - id: PB007
+    name: "Combined CPU and memory pressure"
+    conditions:
+      cpu_percent: { threshold: 80.0, weight: 0.8 }
+      mem_percent: { threshold: 80.0, weight: 0.8 }
+    severity_band: [HIGH, CRITICAL]
+    actions:
+      L1: "Escalate immediately to L2. Do not attempt restart without guidance."
+      L2: "Assess blast radius. Prepare rollback plan before any action."
+      L3: "Authorise emergency scaling. Initiate incident bridge if customer-facing."
+    tags: [cpu, memory, combined]
+
+  - id: PB008
+    name: "Disk space exhaustion"
+    conditions:
+      disk_io_mbps: { threshold: 150.0, weight: 0.7 }
+    severity_band: [HIGH, CRITICAL]
+    actions:
+      L1: "Run 'df -h'. Identify largest consumers via 'du -sh /*'."
+      L2: "Clear log rotation backlog. Archive or delete safely."
+      L3: "Authorise storage expansion. Review log retention policy."
+    tags: [disk, space]
+
+  - id: PB009
+    name: "Network packet loss pattern"
+    conditions:
+      net_mbps: { threshold: 100.0, weight: 0.6 }
+    severity_band: [MEDIUM, HIGH]
+    actions:
+      L1: "Run 'ping' and 'mtr' to upstream gateway. Log results."
+      L2: "Check NIC errors via 'ethtool'. Contact network team if persistent."
+      L3: "Review SLA with network provider. Initiate failover if redundant path available."
+    tags: [network, packet_loss]
+
+  - id: PB010
+    name: "Service unresponsiveness — CPU correlated"
+    conditions:
+      cpu_percent: { threshold: 95.0, weight: 1.0 }
+    severity_band: [CRITICAL]
+    actions:
+      L1: "Trigger health check endpoint. Log response time. Escalate immediately."
+      L2: "Restart application service after capturing thread dump."
+      L3: "Initiate incident. Activate runbook for service recovery."
+    tags: [cpu, service, unresponsive]
+
+  - id: PB011
+    name: "Service unresponsiveness — memory correlated"
+    conditions:
+      mem_percent: { threshold: 95.0, weight: 1.0 }
+    severity_band: [CRITICAL]
+    actions:
+      L1: "Trigger health check. Log OOM events from kernel log."
+      L2: "Force garbage collection if JVM. Restart if unrecoverable."
+      L3: "Initiate incident. Review memory limits and pod resource quotas."
+    tags: [memory, service, unresponsive]
+
+  - id: PB012
+    name: "Cascading multi-metric degradation"
+    conditions:
+      cpu_percent: { threshold: 75.0, weight: 0.7 }
+      mem_percent: { threshold: 75.0, weight: 0.7 }
+      disk_io_mbps: { threshold: 100.0, weight: 0.6 }
+    severity_band: [HIGH, CRITICAL]
+    actions:
+      L1: "Do not act unilaterally. Escalate to L2 and L3 simultaneously."
+      L2: "Isolate failing component. Assess cascading failure risk."
+      L3: "Activate major incident process. Consider controlled shutdown."
+    tags: [cascading, multi-metric]
+
+  # --- Phase 2 additions (Section 7.3) ---
+
+  - id: PB013
+    name: "Gradual network throughput degradation"
+    conditions:
+      net_mbps: { threshold: 400.0, weight: 0.7 }
+    severity_band: [LOW, MEDIUM]
+    actions:
+      L1: "Monitor trend over 30 minutes. Log baseline deviation."
+      L2: "Check for background replication or backup jobs consuming bandwidth."
+      L3: "Review traffic engineering. Evaluate QoS policy adjustments."
+    tags: [network, gradual, degradation]
+
+  - id: PB014
+    name: "Anti-virus scan pattern — CPU and disk"
+    conditions:
+      cpu_percent: { threshold: 70.0, weight: 0.6 }
+      disk_io_mbps: { threshold: 120.0, weight: 0.8 }
+    severity_band: [LOW, MEDIUM]
+    actions:
+      L1: "Check scheduled AV scan window. Suppress alert if within schedule."
+      L2: "Reschedule AV scan to off-peak hours if impacting workloads."
+      L3: "Review AV scan policy. Exclude high-throughput data directories."
+    tags: [antivirus, cpu, disk, scheduled]
+
+  - id: PB015
+    name: "Log rotation under high write load"
+    conditions:
+      mem_percent: { threshold: 65.0, weight: 0.5 }
+      disk_io_mbps: { threshold: 180.0, weight: 0.9 }
+    severity_band: [LOW, MEDIUM]
+    actions:
+      L1: "Check logrotate schedule. Confirm disk write spike is transient."
+      L2: "Adjust logrotate frequency. Move logs to dedicated volume."
+      L3: "Review log retention architecture. Consider centralised log shipping."
+    tags: [logs, disk, memory, rotation]

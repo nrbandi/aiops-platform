@@ -1,0 +1,36 @@
+# AIOps Agent Configuration
+# B. Nageshwar Rao | 2024MT03056 | BITS WILP
+
+observe:
+  poll_interval_seconds: 15 # Section 5.3 — 15-second sampling interval
+  window_size: 10 # Section 5.6 Finding 2 — increased from 5 to 10
+  warmup_windows: 288 # Production: 48 hours (Section 5.6 Finding 1)
+  warmup_windows_demo: 10 # Demo mode: fires immediately for viva
+
+analyze:
+  zscore_threshold: 3.0 # Section 4.3.2 — Z-score pre-filter threshold
+  zscore_threshold_demo: 1.5 # Demo mode — fires with less history
+  isolation_forest:
+    contamination: 0.05
+    n_estimators: 100
+    random_state: 42
+  event_correlator:
+    co_occurrence_window: 5 # Section 5.4.3 — 5-window grouping
+
+decide:
+  playbook_file: "config/playbooks.yaml"
+  environments:
+    - production
+    - staging
+    - development
+  business_hours:
+    start: 8
+    end: 20
+  operator_roles:
+    - L1
+    - L2
+    - L3
+
+act:
+  log_path: "data/logs/action_log.jsonl"
+  demo_mode: true
