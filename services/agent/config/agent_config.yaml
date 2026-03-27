@@ -10,6 +10,8 @@ observe:
   zscore_threshold_demo: 1.5
 
 analyze:
+  zscore_threshold: 3.0
+  zscore_threshold_demo: 1.5
   isolation_forest:
     contamination: 0.05
     n_estimators: 100

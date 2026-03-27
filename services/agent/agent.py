@@ -93,15 +93,15 @@ def run_pipeline(
             # Convert MetricWindow → list[dict] for existing layers
             window = metric_window.to_raw_samples()
 
-            # Log signal present in this window
+            # Log signal — always compute, default 0.0
+            avg_log_score = 0.0
             has_log_signal = metric_window.has_log_signal
             if has_log_signal:
                 avg_log_score = sum(
                     e.log_anomaly_score for e in metric_window.events
                 ) / len(metric_window.events)
-                logger.info(f"Log signal detected — " f"avg_score={avg_log_score:.3f}")
+                logger.info(f"Log signal detected — avg_score={avg_log_score:.3f}")
 
-            # Ground truth label for evaluation
             gt_label = metric_window.ground_truth_label
 
             # ── PREPROCESS ───────────────────────────────────────
@@ -202,6 +202,7 @@ def _print_recommendation(entry: dict, cycle: int) -> None:
     print(f"  Metrics      : {', '.join(ae['contributing_metrics'])}")
     print(f"  Duration     : {ae['anomaly_duration_windows']} window(s)")
     print(f"  Dataset      : {meta.get('source_dataset', 'unknown')}")
+    print(f"  Scenario     : {ae.get('scenario_name', '—')}")
     print(f"  GT label     : {meta.get('ground_truth_label', '?')}")
     print(f"  Log score    : {meta.get('log_anomaly_score', 0.0):.3f}")
     if recs:

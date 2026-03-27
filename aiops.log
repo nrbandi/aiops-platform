@@ -1,0 +1,432 @@
+2026-03-27T16:31:20 | INFO     | aiops.agent | ============================================================
+2026-03-27T16:31:20 | INFO     | aiops.agent | AIOps Platform Agent starting
+2026-03-27T16:31:20 | INFO     | aiops.agent | Adapter      : synthetic
+2026-03-27T16:31:20 | INFO     | aiops.agent | Environment  : production
+2026-03-27T16:31:20 | INFO     | aiops.agent | Operator     : L2
+2026-03-27T16:31:20 | INFO     | aiops.agent | Demo mode    : True
+2026-03-27T16:31:20 | INFO     | aiops.agent | ============================================================
+2026-03-27T16:31:20 | INFO     | src.observe.adapters.synthetic_adapter | SyntheticAdapter initialised — window_size=10, scenarios=6
+2026-03-27T16:31:20 | INFO     | src.observe.adapters.adapter_factory | AdapterFactory — created 'synthetic' adapter (SyntheticAdapter)
+2026-03-27T16:31:20 | INFO     | src.analyze.zscore_filter | ZScoreFilter initialised — threshold=±1.5 (DEMO)
+2026-03-27T16:31:20 | INFO     | src.analyze.isolation_forest | Warmup mode: DEMO (10 windows)
+2026-03-27T16:31:20 | INFO     | src.analyze.isolation_forest | IsolationForestScorer initialised — warmup=10 windows, contamination=0.05
+2026-03-27T16:31:20 | INFO     | src.analyze.event_correlator | EventCorrelator initialised — co-occurrence window=5, demo_mode=True
+2026-03-27T16:31:20 | INFO     | src.decide.rule_engine | RuleEngine loaded 15 playbooks from services/agent/config/playbooks.yaml
+2026-03-27T16:31:20 | INFO     | src.decide.recommendation_engine | RecommendationEngine initialised — roles=['L1', 'L2', 'L3'], biz_hours=8:00–20:00
+2026-03-27T16:31:20 | INFO     | src.act.action_log | ActionLog initialised — path=data/logs/action_log.jsonl, demo_mode=True
+2026-03-27T16:31:20 | INFO     | aiops.agent | --- Cycle 1 | adapter=synthetic ---
+2026-03-27T16:31:20 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:20 | INFO     | aiops.agent | --- Cycle 2 | adapter=synthetic ---
+2026-03-27T16:31:20 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:20 | INFO     | aiops.agent | --- Cycle 3 | adapter=synthetic ---
+2026-03-27T16:31:20 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:20 | INFO     | aiops.agent | --- Cycle 4 | adapter=synthetic ---
+2026-03-27T16:31:20 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:20 | INFO     | aiops.agent | --- Cycle 5 | adapter=synthetic ---
+2026-03-27T16:31:20 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:20 | INFO     | aiops.agent | --- Cycle 6 | adapter=synthetic ---
+2026-03-27T16:31:20 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:20 | INFO     | aiops.agent | --- Cycle 7 | adapter=synthetic ---
+2026-03-27T16:31:20 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:20 | INFO     | aiops.agent | --- Cycle 8 | adapter=synthetic ---
+2026-03-27T16:31:20 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:20 | INFO     | aiops.agent | --- Cycle 9 | adapter=synthetic ---
+2026-03-27T16:31:20 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:20 | INFO     | aiops.agent | --- Cycle 10 | adapter=synthetic ---
+2026-03-27T16:31:20 | INFO     | src.observe.adapters.synthetic_adapter | SyntheticAdapter — cycle=10 ANOMALY injected: disk_saturation
+2026-03-27T16:31:20 | INFO     | src.analyze.zscore_filter | Z-score gate PASSED — flagged: {'mem_percent': 1.5524947222583496, 'disk_io_mbps': 2.9282825756912283}
+2026-03-27T16:31:21 | INFO     | src.analyze.isolation_forest | IsolationForest trained on 10 windows (0.4h of data)
+2026-03-27T16:31:21 | INFO     | src.analyze.isolation_forest | Isolation Forest ANOMALY — score=0.5846
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.4523 (MEDIUM), metrics=['disk_io_mbps', 'mem_percent'], duration=1 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #1 — MEDIUM (score=0.4523) gt=1 scenario='disk_saturation'
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 4 playbook(s) — top: PB005 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 4 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=MEDIUM, recommendations=4
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 11 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.4623 (MEDIUM), metrics=['disk_io_mbps', 'mem_percent'], duration=2 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #2 — MEDIUM (score=0.4623) gt=0 scenario=''
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 4 playbook(s) — top: PB005 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 4 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=MEDIUM, recommendations=4
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 12 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.4723 (MEDIUM), metrics=['disk_io_mbps', 'mem_percent'], duration=3 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #3 — MEDIUM (score=0.4723) gt=0 scenario=''
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 4 playbook(s) — top: PB005 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 4 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=MEDIUM, recommendations=4
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 13 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.4823 (MEDIUM), metrics=['disk_io_mbps', 'mem_percent'], duration=4 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #4 — MEDIUM (score=0.4823) gt=0 scenario=''
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 4 playbook(s) — top: PB005 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 4 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=MEDIUM, recommendations=4
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 14 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.4923 (MEDIUM), metrics=['disk_io_mbps', 'mem_percent'], duration=5 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #5 — MEDIUM (score=0.4923) gt=0 scenario=''
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 4 playbook(s) — top: PB005 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 4 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=MEDIUM, recommendations=4
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 15 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.observe.adapters.synthetic_adapter | SyntheticAdapter — cycle=15 ANOMALY injected: network_flood
+2026-03-27T16:31:21 | INFO     | src.analyze.zscore_filter | Z-score gate PASSED — flagged: {'cpu_percent': 1.8675349472213312, 'net_mbps': 3.7175554932158277}
+2026-03-27T16:31:21 | INFO     | aiops.agent | No anomaly event — gt_label=1 source=synthetic
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 16 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 17 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 18 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 19 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | aiops.agent | No anomaly event — gt_label=0 source=synthetic
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 20 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.observe.adapters.synthetic_adapter | SyntheticAdapter — cycle=20 ANOMALY injected: cascading_failure
+2026-03-27T16:31:21 | INFO     | src.analyze.zscore_filter | Z-score gate PASSED — flagged: {'cpu_percent': 3.671803737911895, 'mem_percent': 3.578906437428343, 'disk_io_mbps': 2.2236495404106456}
+2026-03-27T16:31:21 | INFO     | src.analyze.isolation_forest | Isolation Forest ANOMALY — score=0.5419
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.506 (HIGH), metrics=['disk_io_mbps', 'mem_percent', 'cpu_percent'], duration=1 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #6 — HIGH (score=0.506) gt=1 scenario='cascading_failure'
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 9 playbook(s) — top: PB001 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 9 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=HIGH, recommendations=9
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 21 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.516 (HIGH), metrics=['disk_io_mbps', 'mem_percent', 'cpu_percent'], duration=2 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #7 — HIGH (score=0.516) gt=0 scenario=''
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 9 playbook(s) — top: PB001 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 9 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=HIGH, recommendations=9
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 22 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.526 (HIGH), metrics=['disk_io_mbps', 'mem_percent', 'cpu_percent'], duration=3 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #8 — HIGH (score=0.526) gt=0 scenario=''
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 9 playbook(s) — top: PB001 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 9 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=HIGH, recommendations=9
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 23 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.536 (HIGH), metrics=['disk_io_mbps', 'mem_percent', 'cpu_percent'], duration=4 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #9 — HIGH (score=0.536) gt=0 scenario=''
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 9 playbook(s) — top: PB001 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 9 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=HIGH, recommendations=9
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 24 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.546 (HIGH), metrics=['disk_io_mbps', 'mem_percent', 'cpu_percent'], duration=5 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #10 — HIGH (score=0.546) gt=0 scenario=''
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 9 playbook(s) — top: PB001 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 9 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=HIGH, recommendations=9
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 25 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.observe.adapters.synthetic_adapter | SyntheticAdapter — cycle=25 ANOMALY injected: antivirus_scan
+2026-03-27T16:31:21 | INFO     | src.analyze.zscore_filter | Z-score gate PASSED — flagged: {'cpu_percent': 2.227036974601451}
+2026-03-27T16:31:21 | INFO     | src.analyze.isolation_forest | Isolation Forest ANOMALY — score=0.5160
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.393 (MEDIUM), metrics=['cpu_percent'], duration=6 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #11 — MEDIUM (score=0.393) gt=1 scenario='antivirus_scan'
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 2 playbook(s) — top: PB008 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 2 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=MEDIUM, recommendations=2
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 10
+  Severity     : MEDIUM (score=0.4523)
+  Metrics      : disk_io_mbps, mem_percent
+  Duration     : 1 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB005]
+  Disk I/O saturation
+  Match=1.0 | Priority=0.625
+
+  ACTION: Identify I/O-heavy processes via 'iotop'. Defer non-critical batch jobs.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 11
+  Severity     : MEDIUM (score=0.4623)
+  Metrics      : disk_io_mbps, mem_percent
+  Duration     : 2 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB005]
+  Disk I/O saturation
+  Match=1.0 | Priority=0.625
+
+  ACTION: Identify I/O-heavy processes via 'iotop'. Defer non-critical batch jobs.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 12
+  Severity     : MEDIUM (score=0.4723)
+  Metrics      : disk_io_mbps, mem_percent
+  Duration     : 3 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB005]
+  Disk I/O saturation
+  Match=1.0 | Priority=0.625
+
+  ACTION: Identify I/O-heavy processes via 'iotop'. Defer non-critical batch jobs.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 13
+  Severity     : MEDIUM (score=0.4823)
+  Metrics      : disk_io_mbps, mem_percent
+  Duration     : 4 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB005]
+  Disk I/O saturation
+  Match=1.0 | Priority=0.625
+
+  ACTION: Identify I/O-heavy processes via 'iotop'. Defer non-critical batch jobs.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 14
+  Severity     : MEDIUM (score=0.4923)
+  Metrics      : disk_io_mbps, mem_percent
+  Duration     : 5 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB005]
+  Disk I/O saturation
+  Match=1.0 | Priority=0.625
+
+  ACTION: Identify I/O-heavy processes via 'iotop'. Defer non-critical batch jobs.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 20
+  Severity     : HIGH (score=0.506)
+  Metrics      : disk_io_mbps, mem_percent, cpu_percent
+  Duration     : 1 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB001]
+  CPU saturation — application server
+  Match=1.0 | Priority=0.8125
+
+  ACTION: Identify runaway process. Consider horizontal scaling or throttling batch jobs.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 21
+  Severity     : HIGH (score=0.516)
+  Metrics      : disk_io_mbps, mem_percent, cpu_percent
+  Duration     : 2 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB001]
+  CPU saturation — application server
+  Match=1.0 | Priority=0.8125
+
+  ACTION: Identify runaway process. Consider horizontal scaling or throttling batch jobs.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 22
+  Severity     : HIGH (score=0.526)
+  Metrics      : disk_io_mbps, mem_percent, cpu_percent
+  Duration     : 3 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB001]
+  CPU saturation — application server
+  Match=1.0 | Priority=0.8125
+
+  ACTION: Identify runaway process. Consider horizontal scaling or throttling batch jobs.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 23
+  Severity     : HIGH (score=0.536)
+  Metrics      : disk_io_mbps, mem_percent, cpu_percent
+  Duration     : 4 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB001]
+  CPU saturation — application server
+  Match=1.0 | Priority=0.8125
+
+  ACTION: Identify runaway process. Consider horizontal scaling or throttling batch jobs.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 24
+  Severity     : HIGH (score=0.546)
+  Metrics      : disk_io_mbps, mem_percent, cpu_percent
+  Duration     : 5 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB001]
+  CPU saturation — application server
+  Match=1.0 | Priority=0.8125
+
+  ACTION: Identify runaway process. Consider horizontal scaling or throttling batch jobs.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 25
+  Severity     : MEDIUM (score=0.393)
+  Metrics      : cpu_percent
+  Duration     : 6 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 26 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.403 (MEDIUM), metrics=['cpu_percent'], duration=7 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #12 — MEDIUM (score=0.403) gt=0 scenario=''
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 2 playbook(s) — top: PB008 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 2 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=MEDIUM, recommendations=2
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 27 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.413 (MEDIUM), metrics=['cpu_percent'], duration=8 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #13 — MEDIUM (score=0.413) gt=0 scenario=''
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 2 playbook(s) — top: PB008 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 2 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=MEDIUM, recommendations=2
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 28 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.423 (MEDIUM), metrics=['cpu_percent'], duration=9 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #14 — MEDIUM (score=0.423) gt=0 scenario=''
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 2 playbook(s) — top: PB008 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 2 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=MEDIUM, recommendations=2
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 29 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.analyze.event_correlator | Anomaly event formed — severity=0.433 (MEDIUM), metrics=['cpu_percent'], duration=10 windows
+2026-03-27T16:31:21 | INFO     | aiops.agent | Anomaly #15 — MEDIUM (score=0.433) gt=0 scenario=''
+2026-03-27T16:31:21 | INFO     | src.decide.rule_engine | RuleEngine matched 2 playbook(s) — top: PB008 (1.0)
+2026-03-27T16:31:21 | INFO     | src.decide.recommendation_engine | RecommendationEngine generated 2 recommendation(s) for role=L2, env=production
+2026-03-27T16:31:21 | INFO     | src.act.action_log | ActionLog entry written — severity=MEDIUM, recommendations=2
+2026-03-27T16:31:21 | INFO     | aiops.agent | --- Cycle 30 | adapter=synthetic ---
+2026-03-27T16:31:21 | INFO     | src.observe.adapters.synthetic_adapter | SyntheticAdapter — cycle=30 ANOMALY injected: cpu_spike
+2026-03-27T16:31:21 | INFO     | src.analyze.zscore_filter | Z-score gate PASSED — flagged: {'cpu_percent': 2.5273437373128087}
+2026-03-27T16:31:21 | INFO     | aiops.agent | No anomaly event — gt_label=1 source=synthetic
+2026-03-27T16:31:21 | INFO     | aiops.agent | Reached max_cycles=30. Stopping.
+2026-03-27T16:31:21 | INFO     | aiops.agent | ============================================================
+2026-03-27T16:31:21 | INFO     | aiops.agent | Session summary
+2026-03-27T16:31:21 | INFO     | aiops.agent |   Adapter            : synthetic
+2026-03-27T16:31:21 | INFO     | aiops.agent |   Cycles run         : 31
+2026-03-27T16:31:21 | INFO     | aiops.agent |   Anomalies detected : 15
+2026-03-27T16:31:21 | INFO     | aiops.agent |   Log entries        : 45
+2026-03-27T16:31:21 | INFO     | aiops.agent |   CRITICAL           : 0
+2026-03-27T16:31:21 | INFO     | aiops.agent |   HIGH               : 15
+2026-03-27T16:31:21 | INFO     | aiops.agent |   MEDIUM             : 30
+2026-03-27T16:31:21 | INFO     | aiops.agent |   LOW                : 0
+2026-03-27T16:31:21 | INFO     | aiops.agent | ============================================================
+
+  TOP RECOMMENDATION [PB008]
+  Disk space exhaustion
+  Match=1.0 | Priority=0.5375
+
+  ACTION: Clear log rotation backlog. Archive or delete safely.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 26
+  Severity     : MEDIUM (score=0.403)
+  Metrics      : cpu_percent
+  Duration     : 7 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB008]
+  Disk space exhaustion
+  Match=1.0 | Priority=0.5375
+
+  ACTION: Clear log rotation backlog. Archive or delete safely.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 27
+  Severity     : MEDIUM (score=0.413)
+  Metrics      : cpu_percent
+  Duration     : 8 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB008]
+  Disk space exhaustion
+  Match=1.0 | Priority=0.5375
+
+  ACTION: Clear log rotation backlog. Archive or delete safely.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 28
+  Severity     : MEDIUM (score=0.423)
+  Metrics      : cpu_percent
+  Duration     : 9 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB008]
+  Disk space exhaustion
+  Match=1.0 | Priority=0.5375
+
+  ACTION: Clear log rotation backlog. Archive or delete safely.
+════════════════════════════════════════════════════════════
+
+
+════════════════════════════════════════════════════════════
+  ANOMALY DETECTED — Cycle 29
+  Severity     : MEDIUM (score=0.433)
+  Metrics      : cpu_percent
+  Duration     : 10 window(s)
+  Dataset      : unknown
+  Scenario     : —
+  GT label     : ?
+  Log score    : 0.000
+
+  TOP RECOMMENDATION [PB008]
+  Disk space exhaustion
+  Match=1.0 | Priority=0.5375
+
+  ACTION: Clear log rotation backlog. Archive or delete safely.
+════════════════════════════════════════════════════════════
+
