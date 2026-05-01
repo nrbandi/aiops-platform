@@ -26,6 +26,7 @@ analyze:
 
 decide:
   playbook_file: "services/agent/config/playbooks.yaml"
+  z_threshold: 1.5
   environments:
     - production
     - staging

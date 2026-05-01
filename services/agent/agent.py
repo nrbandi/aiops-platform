@@ -117,9 +117,16 @@ def run_pipeline(
             if not zscore_result["passed_gate"] and flatness_result["passed_gate"]:
                 zscore_result["passed_gate"] = True
                 zscore_result["flagged_metrics"] = flatness_result["flagged_metrics"]
+                # Inject synthetic Z-scores for flat metrics so Rule Engine
+                # can match playbooks based on which metric is anomalously flat.
+                # Use z_threshold + 0.5 to ensure playbook conditions are met.
+                z_inject = config["decide"].get("z_threshold", 1.5) + 0.5
+                for m in flatness_result["flagged_metrics"]:
+                    zscore_result["zscores"][m] = z_inject
                 logger.info(
                     f"Flatness gate override — "
-                    f"metrics: {flatness_result['flagged_metrics']}"
+                    f"metrics: {flatness_result['flagged_metrics']} "
+                    f"(injected z={z_inject})"
                 )
             # ── ANALYZE — Stage 2: Isolation Forest ──────────────
             if_result = iforest.score(window)
@@ -156,8 +163,9 @@ def run_pipeline(
             )
 
             # ── DECIDE — Rule Engine ──────────────────────────────
-            matches = rule_eng.match(event, last_anomalous_window or window)
-
+            matches = rule_eng.match(
+                event, last_anomalous_window or window, zscore_result
+            )
             # Log-signal playbook disambiguation
             if has_log_signal and avg_log_score > 0.6:
                 logger.info(
