@@ -42,6 +42,11 @@ decide:
 act:
   log_path: "data/logs/action_log.jsonl"
   demo_mode: true
+  cooldown_windows:
+    CRITICAL: 5
+    HIGH: 10
+    MEDIUM: 15
+    LOW: 20
 
 # ── Observe layer adapter configuration ──────────────────────────
 data:
