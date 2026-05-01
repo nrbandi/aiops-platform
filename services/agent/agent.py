@@ -20,6 +20,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from src.observe.adapters.adapter_factory import AdapterFactory
 from src.observe.preprocessor import Preprocessor
 from src.analyze.zscore_filter import ZScoreFilter
+from src.analyze.flatness_detector import FlatnessDetector
 from src.analyze.isolation_forest import IsolationForestScorer
 from src.analyze.event_correlator import EventCorrelator
 from src.decide.rule_engine import RuleEngine
@@ -60,6 +61,7 @@ def run_pipeline(
     adapter = AdapterFactory.create(config)
     preproc = Preprocessor()
     zscore = ZScoreFilter(config)
+    flatness = FlatnessDetector(config)
     iforest = IsolationForestScorer(config)
     correlator = EventCorrelator(config)
     rule_eng = RuleEngine(config)
@@ -109,7 +111,16 @@ def run_pipeline(
 
             # ── ANALYZE — Stage 1: Z-score ───────────────────────
             zscore_result = zscore.filter(window)
+            flatness_result = flatness.detect(window)
 
+            # Merge gate: Z-score OR flatness passes to Isolation Forest
+            if not zscore_result["passed_gate"] and flatness_result["passed_gate"]:
+                zscore_result["passed_gate"] = True
+                zscore_result["flagged_metrics"] = flatness_result["flagged_metrics"]
+                logger.info(
+                    f"Flatness gate override — "
+                    f"metrics: {flatness_result['flagged_metrics']}"
+                )
             # ── ANALYZE — Stage 2: Isolation Forest ──────────────
             if_result = iforest.score(window)
 

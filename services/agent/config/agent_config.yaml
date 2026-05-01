@@ -5,7 +5,7 @@ observe:
   poll_interval_seconds: 15
   window_size: 10
   warmup_windows: 288
-  warmup_windows_demo: 10
+  warmup_windows_demo: 30
   zscore_threshold: 3.0
   zscore_threshold_demo: 1.5
 
@@ -13,11 +13,16 @@ analyze:
   zscore_threshold: 3.0
   zscore_threshold_demo: 1.5
   isolation_forest:
-    contamination: 0.05
+    contamination: 0.055
     n_estimators: 100
     random_state: 42
   event_correlator:
     co_occurrence_window: 5
+  flatness:
+    cv_threshold: 0.005
+    min_signal: 1.0
+    min_flat_ratio: 0.7
+    band_pct: 0.01
 
 decide:
   playbook_file: "services/agent/config/playbooks.yaml"
@@ -39,7 +44,7 @@ act:
 
 # ── Observe layer adapter configuration ──────────────────────────
 data:
-  adapter: "synthetic" # Options: synthetic | gaia
+  adapter: "gaia" # Options: synthetic | gaia
   gaia_path: "data/gaia"
   replay_speed: 1.0 # 1.0=real-time 10.0=fast evaluation
   start_offset: 4880 # Start near GAIA anomaly region (row 4889)

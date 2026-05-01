@@ -101,7 +101,8 @@ class EventCorrelator:
 
         # Ensure contributing_metrics always has content in demo mode
         if not all_flagged:
-            all_flagged = zscore_result.get("flagged_metrics", ["cpu_percent"])
+            fallback = zscore_result.get("flagged_metrics") or []
+            all_flagged = fallback if fallback else ["cpu_percent"]
 
         severity = self._phase2_severity(
             scores=all_scores,

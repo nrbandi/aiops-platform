@@ -43,7 +43,7 @@ logger = logging.getLogger(__name__)
 # Canonical metric stream assignments (index → stream name)
 METRIC_STREAM_MAP = {
     0: "cpu_percent",
-    1: "mem_percent",
+    4: "mem_percent",
     2: "disk_io_mbps",
     3: "net_mbps",
 }
