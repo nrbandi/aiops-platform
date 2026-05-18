@@ -17,7 +17,7 @@ proto-BDI agent.
 
 ### Research Contributions
 
-1. **Two-pass sequential anomaly detection** — Z-score pre-filter gates
+1. **Three-pass sequential anomaly detection** — Z-score pre-filter gates
    windows to Isolation Forest, reducing compounded false positives from
    the earlier parallel hybrid design.
 
